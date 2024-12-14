@@ -1,0 +1,10 @@
+server:
+  port: 0
+spring:
+  application:
+    name: ProductsMicroservice
+  kafka:
+    producer:
+      bootstrapServers: localhost:9092
+      keySerializer: org.apache.kafka.common.serialization.StringSerializer
+      valueSerializer: org.springframework.kafka.support.serializer.JsonSerializer
