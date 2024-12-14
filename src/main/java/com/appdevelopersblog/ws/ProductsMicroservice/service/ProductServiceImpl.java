@@ -31,16 +31,22 @@ public class ProductServiceImpl implements ProductService {
                 productRestModel.getPrice(),
                 productRestModel.getQuantity());
 
-        CompletableFuture<SendResult<String, ProductCreatedEvent>> future = kafkaTemplate.send("product-created-events-topic2", productId, productCreatedEvent);
+        // Synchronous approach
+        SendResult<String, ProductCreatedEvent> result = kafkaTemplate.send("product-created-events-topic2", productId, productCreatedEvent);
 
-        future.whenComplete((result, exception) -> {
-           if (exception != null) {
-                LOGGER.error("***** Failed to send message: " + exception.getMessage());
-           }
-           else {
-                LOGGER.info("***** Message sent successfully: " + result.getRecordMetadata());
-           }
-        });
+
+
+        // Asynchronous approach
+//        CompletableFuture<SendResult<String, ProductCreatedEvent>> future = kafkaTemplate.send("product-created-events-topic2", productId, productCreatedEvent);
+//
+//        future.whenComplete((result, exception) -> {
+//           if (exception != null) {
+//                LOGGER.error("***** Failed to send message: " + exception.getMessage());
+//           }
+//           else {
+//                LOGGER.info("***** Message sent successfully: " + result.getRecordMetadata());
+//           }
+//        });
 
         //future.join();
         LOGGER.info("***** Returning product id");
