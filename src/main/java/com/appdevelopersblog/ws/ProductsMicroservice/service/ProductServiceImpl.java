@@ -14,7 +14,7 @@ import java.util.concurrent.CompletableFuture;
 public class ProductServiceImpl implements ProductService {
 
     private KafkaTemplate<String, ProductCreatedEvent> kafkaTemplate;
-    private Logger LOGGER = LoggerFactory.getLogger(this.getClass());
+    private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
     public ProductServiceImpl(KafkaTemplate<String, ProductCreatedEvent> kafkaTemplate) {
         this.kafkaTemplate = kafkaTemplate;
@@ -32,7 +32,14 @@ public class ProductServiceImpl implements ProductService {
                 productRestModel.getQuantity());
 
         // Synchronous approach
+
+        LOGGER.info("Before sending event");
+
         SendResult<String, ProductCreatedEvent> result = kafkaTemplate.send("product-created-events-topic2", productId, productCreatedEvent).get();
+
+        LOGGER.info("Partition: " + result.getRecordMetadata().partition());
+        LOGGER.info("Topic: " + result.getRecordMetadata().topic());
+        LOGGER.info("Offset: " + result.getRecordMetadata().offset());
 
         // Asynchronous approach
 //        CompletableFuture<SendResult<String, ProductCreatedEvent>> future = kafkaTemplate.send("product-created-events-topic2", productId, productCreatedEvent);
