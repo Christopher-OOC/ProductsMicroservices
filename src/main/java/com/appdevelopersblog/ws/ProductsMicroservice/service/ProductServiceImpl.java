@@ -21,7 +21,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public String createProduct(CreateProductRestModel productRestModel) {
+    public String createProduct(CreateProductRestModel productRestModel) throws Exception {
 
         String productId = UUID.randomUUID().toString();
 
@@ -32,7 +32,7 @@ public class ProductServiceImpl implements ProductService {
                 productRestModel.getQuantity());
 
         // Synchronous approach
-        SendResult<String, ProductCreatedEvent> result = kafkaTemplate.send("product-created-events-topic2", productId, productCreatedEvent);
+        SendResult<String, ProductCreatedEvent> result = kafkaTemplate.send("product-created-events-topic2", productId, productCreatedEvent).get();
 
 
 
