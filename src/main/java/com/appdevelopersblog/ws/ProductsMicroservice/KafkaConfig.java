@@ -12,10 +12,10 @@ public class KafkaConfig {
     NewTopic createTopic() {
 
         return TopicBuilder
-                .name("product-created-events-topic")
+                .name("product-created-events-topic2")
                 .partitions(3)
                 .replicas(1)
-                .config("min.insync.replicas", "2")
+                .config("min.insync.replicas", "1")
                 .build();
     }
 }
