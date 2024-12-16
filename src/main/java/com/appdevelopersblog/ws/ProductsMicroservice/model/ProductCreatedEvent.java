@@ -1,4 +1,4 @@
-package com.appdevelopersblog.ws.ProductsMicroservice.service;
+package com.appdevelopersblog.ws.ProductsMicroservice.model;
 
 import java.math.BigDecimal;
 
